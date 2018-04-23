@@ -1,0 +1,13 @@
+# enable SASL authentication
+smtp_sasl_auth_enable = yes
+# disallow methods that allow anonymous authentication.
+smtp_sasl_security_options = noanonymous
+# where to find sasl_passwd
+smtp_sasl_password_maps = hash:/etc/postfix/sasl_passwd
+# where to find CA certificates
+smtp_tls_CAfile = /etc/ssl/certs/ca-certificates.crt
+
+smtp_tls_wrappermode = yes
+smtp_tls_security_level = encrypt
+
+smtp_generic_maps = hash:/etc/postfix/generic
