@@ -1,0 +1,34 @@
+version: "3.2"
+
+services:
+  app:
+    image: "elminster/jenkins-withdocker"
+    env_file:
+      - ./.env
+    build:
+      context: .
+      #Build arguments
+      args:
+        mailname: ${MAILNAME}
+        relayhost: ${RELAYHOST}
+        rootaddr: ${ROOTADDR}
+        ISPusername: ${ISPUSERNAME}
+        ISPpwd: ${ISPPWD}
+    ports:
+      - "8080:8080"
+      - "50000:50000"
+     # uncomment for docker in docker
+    privileged: true
+    volumes:
+        # enable persistent volume
+        - "jenkins_home:/var/jenkins_home"
+        # mount docker sock and binary for docker in docker 
+        - /var/run/docker.sock:/var/run/docker.sock
+        -  $HOME/GitHub:/mnt/localgit
+    container_name: jenkins
+    hostname: jenkins_master
+
+volumes:
+   jenkins_home:
+     external:
+      name: jenkins_home

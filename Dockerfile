@@ -67,6 +67,13 @@ COPY /docker-entrypoint.sh /
 COPY /docker-entrypoint.d/* /docker-entrypoint.d/
 RUN chmod a+x /docker-entrypoint.sh /docker-entrypoint.d/*
 
+# Fix for jenkins access to /var/run/docker using docker-compose on Mac issue
+RUN gpasswd -a jenkins staff
+
+# Fix for jenkins access to /var/run/docker
+#RUN sudo groupadd -g 996 docker
+RUN sudo usermod -aG docker jenkins
+
 # Run jenkins after running scirpts in docker-entrypoint directory
 # Everything runs in docker-entrypoint.d as root or last USER directive (gosu can be used in scripts)
 # docker-entrypoint.sh usage: <user> <script> 
